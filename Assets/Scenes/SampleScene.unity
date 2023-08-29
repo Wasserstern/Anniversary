@@ -425,8 +425,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StandardLevelPart: {fileID: 3627396743621996699}
+  maxObjects: 10
   difficulty: 0
   generationIntervalInSeconds: 0.5
+  levelModeIntervalInSeconds: 3
   currentMode: 1
   minHeight: 8
   maxHeight: 4
@@ -435,6 +437,12 @@ MonoBehaviour:
   lastObject: {fileID: 3627396743621996699}
   cascadeMaxWidth: 18
   cascadeMinWidth: 5
+  downHillMinHeight: 3
+  downHillMaxHeight: 7
+  downHillMinWidth: 4
+  downHillMaxWidth: 8
+  upHillMaxHeight: 4
+  upHillMinHeight: 1
 --- !u!4 &1472354003
 Transform:
   m_ObjectHideFlags: 0
