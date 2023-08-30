@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lara : MonoBehaviour
@@ -125,6 +126,15 @@ public class Lara : MonoBehaviour
             rgbd.gravityScale = Mathf.Lerp(currentGravityScale, maxGravity, t);
             elapsedTime += Time.deltaTime;
             yield return null;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")){
+            // Boost upwards
+            Debug.Log("Should boost");
+            jumpCoroutine = Jump();
+            StartCoroutine(Jump());
         }
     }
 }

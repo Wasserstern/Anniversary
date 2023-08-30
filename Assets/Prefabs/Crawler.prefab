@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3571792050723137764}
   - component: {fileID: 3571792050723137765}
   - component: {fileID: 3571792050723137766}
-  m_Layer: 0
+  - component: {fileID: 7260443761348452372}
+  m_Layer: 8
   m_Name: Crawler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +103,22 @@ MonoBehaviour:
   isFacingRight: 0
   isActive: 0
   groundCheckTransform: {fileID: 3571792051353148123}
+--- !u!58 &7260443761348452372
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3571792050723137767}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &3571792051353147684
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3571792051353148123}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

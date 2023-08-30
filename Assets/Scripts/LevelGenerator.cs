@@ -18,6 +18,7 @@ public class LevelGenerator : MonoBehaviour
     public float difficulty;
     [Range (0, 1)]
     public float crawlerChance;
+    bool justSpawnedEnemy;
     public float generationIntervalInSeconds;
     public float difficultyChangeIntervalInSeconds;
     public float levelModeIntervalInSeconds;
@@ -111,7 +112,6 @@ public class LevelGenerator : MonoBehaviour
             case LevelMode.cascade:{
 
 
-                Debug.Log(lastObjectGround.localScale.x / 2);
                 if(UnityEngine.Random.Range(0, 2) == 0){
                     // Spawn next object above current height
                     nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(0, maxHeight));
@@ -159,12 +159,19 @@ public class LevelGenerator : MonoBehaviour
         bool spawningEnemy = false;
         GameObject nextEnemy = null;
         Vector2 enemyPosition = new Vector2();
-        if(Random.Range(0f, 1f) <= crawlerChance){
-            enemyPosition = new Vector2(groundPosition.x + 0.5f + Random.Range(0f, groundWidth -1f), groundPosition.y + 0.5f);
-            nextEnemy = GameObject.Instantiate(Crawler, enemyPosition, new UnityEngine.Quaternion(0, 0, 0, 0));
-            nextEnemy.SendMessage("SetCrawler", Random.Range(difficulty / 3, difficulty));
-            spawningEnemy = true;
+        if(!justSpawnedEnemy){
+            if(Random.Range(0f, 1f) <= crawlerChance){
+                enemyPosition = new Vector2(groundPosition.x + 0.5f + Random.Range(0f, groundWidth -1f), groundPosition.y + 0.5f);
+                nextEnemy = GameObject.Instantiate(Crawler, enemyPosition, new UnityEngine.Quaternion(0, 0, 0, 0));
+                nextEnemy.SendMessage("SetCrawler", Random.Range(difficulty / 3, difficulty));
+                spawningEnemy = true;
+            }
+            justSpawnedEnemy = true;
         }
+        else{
+            justSpawnedEnemy = false;
+        }
+        
 
         if(nextEnemy != null){
             currentEnemies.Enqueue(nextEnemy);
