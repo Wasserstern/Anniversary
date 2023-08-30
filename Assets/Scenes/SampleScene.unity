@@ -266,11 +266,11 @@ MonoBehaviour:
   acceleration: 7.09
   turboAcceleration: 5
   health: 3
-  jumpForce: 20
+  jumpForce: 22
   maxJumpTime: 0.6
-  fallTime: 0.3
+  fallTime: 0.1
   minGravity: 3
-  maxGravity: 20
+  maxGravity: 18
   normalGravity: 10
   groundCheckXSize: 1
   groundCheckYSize: 1
