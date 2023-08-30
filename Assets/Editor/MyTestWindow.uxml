@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="height: 370px; align-items: center; justify-content: space-around; background-image: url(&apos;project://database/Assets/Graphics/Aseprite/UI/UIBlock1.png?fileID=2800000&amp;guid=b19fcd259343a524581887b4cd8e6d0f&amp;type=3#UIBlock1&apos;); -unity-background-scale-mode: stretch-to-fill; cursor: initial; transition-property: height; transition-duration: 3s; transition-timing-function: ease-in-sine;" />
+    <ui:Label text="Add some text below" display-tooltip-when-elided="true" />
+    <ui:Button text="Click me" display-tooltip-when-elided="true" />
+    <ui:TextField picking-mode="Ignore" text="Test" style="-unity-font-style: italic; justify-content: flex-start; -unity-text-align: upper-center; flex-direction: row;" />
+    <ui:Image name="Image" />
+</ui:UXML>

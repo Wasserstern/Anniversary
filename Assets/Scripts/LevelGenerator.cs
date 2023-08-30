@@ -11,13 +11,18 @@ public class LevelGenerator : MonoBehaviour
 {
 
     public GameObject StandardLevelPart;
+    public GameObject Crawler;
 
     public enum LevelMode { flat, cascade, downhill, uphill, crazy}
     public int maxObjects;
     public float difficulty;
+    [Range (0, 1)]
+    public float crawlerChance;
     public float generationIntervalInSeconds;
+    public float difficultyChangeIntervalInSeconds;
     public float levelModeIntervalInSeconds;
-    public Queue<GameObject> previousObjects;
+    public Queue<GameObject> currentLevelObjects;
+    public Queue<GameObject> currentEnemies;
     public LevelMode currentMode;
 
     public float minHeight;
@@ -43,9 +48,11 @@ public class LevelGenerator : MonoBehaviour
     public float upHillMinHeight;
     void Start()
     {
-        previousObjects = new Queue<GameObject>();
+        currentLevelObjects = new Queue<GameObject>();
+        currentEnemies = new Queue<GameObject>();
         StartCoroutine(GenerateTimer());
         StartCoroutine(LevelModeTimer());
+        StartCoroutine(DifficultyTimer());
     }
 
     void Update()
@@ -71,6 +78,24 @@ public class LevelGenerator : MonoBehaviour
         }
         currentMode = (LevelMode)nextLevelModeChoices[UnityEngine.Random.Range(0, nextLevelModeChoices.Length)];
         StartCoroutine(LevelModeTimer());
+    }
+    IEnumerator DifficultyTimer(){
+        yield return new WaitForSeconds(difficultyChangeIntervalInSeconds);
+        difficulty +=1;
+
+        if(cascadeMinWidth / difficulty >= 2f){
+            cascadeMinWidth = cascadeMinWidth / difficulty;
+        }
+        if(cascadeMaxWidth / difficulty >= 5f){
+            cascadeMaxWidth = cascadeMaxWidth / difficulty;
+        }
+
+        if(crawlerChance <= 0.8){
+            crawlerChance += 0.1f;
+        }
+
+
+        StartCoroutine(DifficultyTimer());
     }
 
     void Generate(){
@@ -122,11 +147,31 @@ public class LevelGenerator : MonoBehaviour
         nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y, 0);
         lastObject = nextObject;
         lastObject.transform.position = nextSpawnPosition;
-        previousObjects.Enqueue(lastObject);
-        if(previousObjects.Count > maxObjects){
-            GameObject.Destroy(previousObjects.Dequeue());
+        currentLevelObjects.Enqueue(lastObject);
+        if(currentLevelObjects.Count > maxObjects){
+            GameObject.Destroy(currentLevelObjects.Dequeue());
         }
+        TryEnemySpawn(nextSpawnPosition, nextXScale);
         StartCoroutine(GenerateTimer());
+    }
+
+    void TryEnemySpawn(Vector2 groundPosition, float groundWidth){
+        bool spawningEnemy = false;
+        GameObject nextEnemy = null;
+        Vector2 enemyPosition = new Vector2();
+        if(Random.Range(0f, 1f) <= crawlerChance){
+            enemyPosition = new Vector2(groundPosition.x + 0.5f + Random.Range(0f, groundWidth -1f), groundPosition.y + 0.5f);
+            nextEnemy = GameObject.Instantiate(Crawler, enemyPosition, new UnityEngine.Quaternion(0, 0, 0, 0));
+            nextEnemy.SendMessage("SetCrawler", Random.Range(difficulty / 3, difficulty));
+            spawningEnemy = true;
+        }
+
+        if(nextEnemy != null){
+            currentEnemies.Enqueue(nextEnemy);
+            if(currentEnemies.Count > maxObjects){
+                GameObject.Destroy(currentEnemies.Dequeue());
+            }
+        }
     }
     
 }

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Label text="Just a simple test" display-tooltip-when-elided="true" name="Label" />
+    <ui:Button text="Button" display-tooltip-when-elided="true" name="testButton1" />
+    <ui:Toggle label="Toggle" name="toggleTest1" />
+    
+</ui:UXML>
