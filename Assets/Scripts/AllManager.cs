@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AllManager : MonoBehaviour
 {
+    public float yCameraOffset;
     void Start()
     {
         

@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Parallax : MonoBehaviour
-{
+{   
+    
+    AllManager allmng;
+    
     public Camera cam;
+    public GameObject Lara;
     public float parallaxEffect;
     float  spriteLength;
     Vector3 startPosition;
@@ -13,6 +17,7 @@ public class Parallax : MonoBehaviour
     SpriteRenderer spriteRenderer;
     void Start()
     {
+        allmng = GameObject.Find("AllManager").GetComponent<AllManager>();
         startPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteLength = spriteRenderer.bounds.size.x;
@@ -21,23 +26,20 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float temp = cam.transform.position.x * (1 - parallaxEffect);
+        float camDistance = cam.transform.position.x * parallaxEffect;
+
+        transform.position = new Vector3(startPosition.x + camDistance, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+
+        if (temp > startPosition.x + spriteLength){
+            startPosition = new Vector3(startPosition.x + spriteLength, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+        }
+        else if(temp < startPosition.x - spriteLength){
+            startPosition = new Vector3(startPosition.x - spriteLength, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+        }
     }
 
     void FixedUpdate(){
-        float currentDistance = Vector2.Distance((Vector2)startPosition, (Vector2)cam.transform.position);
-        currentDistance *= parallaxEffect;
-        float newXPosition = startPosition.x + cam.transform.position.x * parallaxEffect;
-
-        transform.position = new Vector3(newXPosition, transform.position.y, transform.position.z);
-
-        if(currentDistance >= spriteLength){
-            if(cam.transform.position.x > startPosition.x){
-                startPosition = new Vector3(startPosition.x + spriteLength, startPosition.y, startPosition.z);
-            }
-            else{
-                startPosition = new Vector3(startPosition.x - spriteLength, startPosition.y, startPosition.z);
-            }
-        }
+        
     }
 }
