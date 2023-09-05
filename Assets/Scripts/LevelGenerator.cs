@@ -102,10 +102,11 @@ public class LevelGenerator : MonoBehaviour
     void Generate(){
         Vector2 nextSpawnPosition = new Vector2();
         Transform lastObjectGround = lastObject.transform.Find("Ground");
+        SpriteRenderer lastObjectRenderer = lastObjectGround.gameObject.GetComponent<SpriteRenderer>();
         float nextXScale = 1f;
         switch(currentMode){
             case LevelMode.flat:{
-                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y);
+                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y);
                 nextXScale = Random.Range(cascadeMinWidth, cascadeMaxWidth);
                 break;
             }
@@ -114,11 +115,11 @@ public class LevelGenerator : MonoBehaviour
 
                 if(UnityEngine.Random.Range(0, 2) == 0){
                     // Spawn next object above current height
-                    nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(0, maxHeight));
+                    nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(0, maxHeight));
                 }
                 else{
                     // Spawn next object below current height
-                    nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x  + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y - Random.Range(0, minHeight));
+                    nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x  + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y - Random.Range(0, minHeight));
                 }
                 nextXScale = UnityEngine.Random.Range(cascadeMinWidth, cascadeMaxWidth);
                 
@@ -126,24 +127,25 @@ public class LevelGenerator : MonoBehaviour
                 break;
             }
             case LevelMode.downhill:{
-                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y - Random.Range(downHillMinHeight, downHillMaxHeight));
+                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y - Random.Range(downHillMinHeight, downHillMaxHeight));
                 nextXScale = Random.Range(downHillMinWidth, downHillMaxWidth);
                 break;
             }
             case LevelMode.uphill:{
-                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(upHillMinHeight, upHillMaxHeight));
+                nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(upHillMinHeight, upHillMaxHeight));
                 nextXScale = Random.Range(downHillMinWidth, downHillMaxWidth);
                 break;
             }
             case LevelMode.crazy:{
-                 nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectGround.localScale.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(upHillMinHeight, upHillMaxHeight));
+                 nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(upHillMinHeight, upHillMaxHeight));
                 nextXScale = Random.Range(downHillMinWidth, downHillMaxWidth);
                 break;
             }
         }
         GameObject nextObject = GameObject.Instantiate(StandardLevelPart);
         Transform nextObjectGround = nextObject.transform.Find("Ground");
-        nextObjectGround.localScale = new Vector3(nextXScale, nextObjectGround.localScale.y, nextObjectGround.localScale.z);
+        SpriteRenderer nextObjectRenderer = nextObjectGround.gameObject.GetComponent<SpriteRenderer>();
+        nextObjectRenderer.size = new Vector2(nextXScale, nextObjectRenderer.size.y);
         nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y, 0);
         lastObject = nextObject;
         lastObject.transform.position = nextSpawnPosition;
