@@ -11,6 +11,8 @@ public class LevelGenerator : MonoBehaviour
 {
 
     public GameObject StandardLevelPart;
+    public GameObject WaterLevelPart;
+    public GameObject AnimatedWaterTile;
     public GameObject Crawler;
 
     public enum LevelMode { flat, cascade, downhill, uphill, crazy}
@@ -142,11 +144,36 @@ public class LevelGenerator : MonoBehaviour
                 break;
             }
         }
+        // Spawn next object, set its sprite size, collider size and position
         GameObject nextObject = GameObject.Instantiate(StandardLevelPart);
         Transform nextObjectGround = nextObject.transform.Find("Ground");
         SpriteRenderer nextObjectRenderer = nextObjectGround.gameObject.GetComponent<SpriteRenderer>();
-        nextObjectRenderer.size = new Vector2(nextXScale, nextObjectRenderer.size.y);
-        nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y, 0);
+        nextObjectRenderer.size = new Vector2(nextXScale, 200);
+        nextObjectGround.GetComponent<BoxCollider2D>().size = new Vector2(nextXScale, 200);
+        nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y - 100, 0);
+        // Spawn water object inbetween lastObject and nextObject
+
+        float waterX = lastObject.transform.position.x + lastObjectRenderer.size.x;
+        float waterY = lastObject.transform.position.y <= nextSpawnPosition.y ? lastObject.transform.position.y -1 : nextSpawnPosition.y -1;
+        Vector2 waterPosition = new Vector2(waterX, waterY);
+        GameObject water = GameObject.Instantiate(WaterLevelPart);
+        Transform waterGround = water.transform.Find("Ground");
+        SpriteRenderer waterRenderer = waterGround.gameObject.GetComponent<SpriteRenderer>();
+        float waterXScale = nextSpawnPosition.x - (lastObject.transform.position.x + lastObjectRenderer.size.x);
+        waterRenderer.size = new Vector2(waterXScale, 200);
+        waterGround.GetComponent<BoxCollider2D>().size = new Vector2(waterXScale, 200);
+        waterGround.localPosition = new Vector3(waterXScale / 2, waterGround.localPosition.y - 100, 0);
+        water.transform.position = waterPosition;
+
+        // Spawn animated water tiles on top of water surface
+        int waterTileCount = Mathf.FloorToInt(waterXScale) +1;
+        Vector2 waterTilePosition = new Vector2(waterPosition.x + 0.5f, waterPosition.y + 0.3f);
+        for(int i = 0; i < waterTileCount; i++){
+            GameObject waterTile = GameObject.Instantiate(AnimatedWaterTile);
+            waterTile.transform.position = waterTilePosition;
+            waterTilePosition += new Vector2(1, 0);
+        }
+            
         lastObject = nextObject;
         lastObject.transform.position = nextSpawnPosition;
         currentLevelObjects.Enqueue(lastObject);
