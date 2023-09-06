@@ -1619,7 +1619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StandardLevelPart: {fileID: 3627396743621996699}
-  WaterLevelPart: {fileID: 1756718461186464155, guid: b96cab904f42af149ab31897f5a1dbca, type: 3}
+  WaterLevelPart: {fileID: 1756718461186464155, guid: b94e47cfa6d017d469353e8c489d3a21, type: 3}
   AnimatedWaterTile: {fileID: 4951901332310891816, guid: bf2d91fb2fbdfd24dbc519367a946b93, type: 3}
   Crawler: {fileID: 3571792050723137767, guid: ec715bf8b835f704182e0b1993856c90, type: 3}
   maxObjects: 100
