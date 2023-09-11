@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Collectible : MonoBehaviour
+public class PaperScrap : MonoBehaviour
 {
     
     AllManager allmng;
@@ -40,6 +40,7 @@ public class Collectible : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.layer == LayerMask.NameToLayer("Lara")){
             allmng.CollectPaperScrap (worth);
+            GetComponent<Collider2D>().enabled = false;
             StartCoroutine(CollectScrap());
         }
         else{
