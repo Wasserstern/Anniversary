@@ -6,7 +6,7 @@ using System.Numerics;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 using Random = UnityEngine.Random;
-
+using Unity.VisualScripting;
 public class LevelGenerator : MonoBehaviour
 {
 
@@ -52,9 +52,12 @@ public class LevelGenerator : MonoBehaviour
     {
         currentLevelObjects = new Queue<GameObject>();
         currentEnemies = new Queue<GameObject>();
-        StartCoroutine(GenerateTimer());
+        //StartCoroutine(GenerateTimer());
         StartCoroutine(LevelModeTimer());
         // StartCoroutine(DifficultyTimer());
+        Generate(false);
+        Generate(true);
+        Generate(false);
     }
 
     void Update()
@@ -62,9 +65,10 @@ public class LevelGenerator : MonoBehaviour
         
     }
 
+    [Obsolete("Not using a timer for level generation anymore.")]
     IEnumerator GenerateTimer(){
         yield return new WaitForSeconds(generationIntervalInSeconds);
-        Generate();
+        Generate(false);
     }
 
     IEnumerator LevelModeTimer(){
@@ -141,7 +145,7 @@ public class LevelGenerator : MonoBehaviour
         StartCoroutine(DifficultyTimer());
     }
 
-    void Generate(){
+    void Generate(bool setGenerator){
         Vector2 nextSpawnPosition = new Vector2();
         Transform lastObjectGround = lastObject.transform.Find("Ground");
         SpriteRenderer lastObjectRenderer = lastObjectGround.gameObject.GetComponent<SpriteRenderer>();
@@ -219,7 +223,9 @@ public class LevelGenerator : MonoBehaviour
             GameObject.Destroy(currentLevelObjects.Dequeue());
         }
         TryEnemySpawn(nextSpawnPosition, nextXScale);
-        StartCoroutine(GenerateTimer());
+        if(setGenerator){
+            transform.position = nextSpawnPosition;
+        }
     }
 
     void TryEnemySpawn(Vector2 groundPosition, float groundWidth){
@@ -247,5 +253,13 @@ public class LevelGenerator : MonoBehaviour
             }
         }
     }
+    void OnTriggerEnter2D(Collider2D other){
+        if(other.gameObject.layer == LayerMask.NameToLayer("Lara")){
+            Generate(false);
+            Generate(true);
+            Generate(false);
+        }
+    }
+   
     
 }
