@@ -15,47 +15,46 @@ public class LevelGenerator : MonoBehaviour
     public GameObject AnimatedWaterTile;
     public GameObject Crawler;
 
+    // Difficulty and level modifiers
+    public float difficulty; // Adjusts spawn chances, mode interval, platform sizes, gap sizes
     public enum LevelMode { flat, cascade, downhill, uphill, crazy}
-    public int maxObjects;
-    public float difficulty;
     [Range (0, 1)]
     public float crawlerChance;
-    bool justSpawnedEnemy;
-    public float generationIntervalInSeconds;
-    public float difficultyChangeIntervalInSeconds;
     public float levelModeIntervalInSeconds;
-    public Queue<GameObject> currentLevelObjects;
-    public Queue<GameObject> currentEnemies;
-    public LevelMode currentMode;
-
     public float minHeight;
     public float maxHeight;
     public float maxDistance;
-    
     public float minDistance;
-
-    
-    public GameObject lastObject;
-    [SerializeField]
-
-
+    public float flatMaxWidth;
+    public float flatMinWidth;
     public float cascadeMaxWidth;
     public float cascadeMinWidth;
-
     public float downHillMinHeight;
     public float downHillMaxHeight;
     public float downHillMinWidth;
     public float downHillMaxWidth;
-    
     public float upHillMaxHeight;
     public float upHillMinHeight;
+
+    public int levelObjectHeight;
+    public int maxObjects;
+    public List<LevelMode> enforcedModes;
+    bool justSpawnedEnemy;
+    public float generationIntervalInSeconds;
+    public float difficultyChangeIntervalInSeconds;
+    public Queue<GameObject> currentLevelObjects;
+    public Queue<GameObject> currentEnemies;
+    public LevelMode currentMode;
+
+    public GameObject lastObject;
+  
     void Start()
     {
         currentLevelObjects = new Queue<GameObject>();
         currentEnemies = new Queue<GameObject>();
         StartCoroutine(GenerateTimer());
         StartCoroutine(LevelModeTimer());
-        StartCoroutine(DifficultyTimer());
+        // StartCoroutine(DifficultyTimer());
     }
 
     void Update()
@@ -69,19 +68,61 @@ public class LevelGenerator : MonoBehaviour
     }
 
     IEnumerator LevelModeTimer(){
-        yield return new WaitForSeconds(levelModeIntervalInSeconds);
-        int enumLength = Enum.GetNames(typeof(LevelMode)).Length;
-        int[] nextLevelModeChoices = new int[enumLength -1];
-        int index = 0;
-        for(int i = 0; i < enumLength; i++){
-            if(i != (int)currentMode){
-                nextLevelModeChoices[index] = i;
-                index++;
+        if(enforcedModes.Count == 0){
+            yield return new WaitForSeconds(levelModeIntervalInSeconds);
+            int enumLength = Enum.GetNames(typeof(LevelMode)).Length;
+            int[] nextLevelModeChoices = new int[enumLength -1];
+            int index = 0;
+            for(int i = 0; i < enumLength; i++){
+                if(i != (int)currentMode){
+                    nextLevelModeChoices[index] = i;
+                    index++;
+                }
+            }
+            currentMode = (LevelMode)nextLevelModeChoices[Random.Range(0, nextLevelModeChoices.Length)];
+            StartCoroutine(LevelModeTimer());
+        }
+        else{
+            yield return new WaitForSeconds(levelModeIntervalInSeconds);
+            currentMode = enforcedModes[Random.Range(0, enforcedModes.Count)];
+            StartCoroutine(LevelModeTimer());
+        }
+    }
+
+    public void ChangeDifficulty(int newDifficultyLevel){
+        StopCoroutine(LevelModeTimer());
+        // Adjust each difficulty level here.
+        switch(newDifficultyLevel){
+            case 0:{
+                break;
+            }
+            case 1:{
+                break;
+            }
+            case 2:{
+                break;
+            }
+            case 3:{
+                break;
+            }
+            case 4:{
+                break;
+            }
+            case 5:{
+                break;
+            }
+            case 6:{
+                break;
+            }
+            case 7:{
+                break;
             }
         }
-        currentMode = (LevelMode)nextLevelModeChoices[UnityEngine.Random.Range(0, nextLevelModeChoices.Length)];
         StartCoroutine(LevelModeTimer());
     }
+
+    // No longer using this
+    [Obsolete("Difficulty no longer changed over time.")]
     IEnumerator DifficultyTimer(){
         yield return new WaitForSeconds(difficultyChangeIntervalInSeconds);
         difficulty +=1;
@@ -97,7 +138,6 @@ public class LevelGenerator : MonoBehaviour
             crawlerChance += 0.1f;
         }
 
-
         StartCoroutine(DifficultyTimer());
     }
 
@@ -109,12 +149,10 @@ public class LevelGenerator : MonoBehaviour
         switch(currentMode){
             case LevelMode.flat:{
                 nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y);
-                nextXScale = Random.Range(cascadeMinWidth, cascadeMaxWidth);
+                nextXScale = Random.Range(flatMinWidth, flatMaxWidth);
                 break;
             }
             case LevelMode.cascade:{
-
-
                 if(UnityEngine.Random.Range(0, 2) == 0){
                     // Spawn next object above current height
                     nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + UnityEngine.Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(0, maxHeight));
@@ -148,9 +186,9 @@ public class LevelGenerator : MonoBehaviour
         GameObject nextObject = GameObject.Instantiate(StandardLevelPart);
         Transform nextObjectGround = nextObject.transform.Find("Ground");
         SpriteRenderer nextObjectRenderer = nextObjectGround.gameObject.GetComponent<SpriteRenderer>();
-        nextObjectRenderer.size = new Vector2(nextXScale, 200);
-        nextObjectGround.GetComponent<BoxCollider2D>().size = new Vector2(nextXScale, 200);
-        nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y - 100, 0);
+        nextObjectRenderer.size = new Vector2(nextXScale, levelObjectHeight);
+        nextObjectGround.GetComponent<BoxCollider2D>().size = new Vector2(nextXScale, levelObjectHeight);
+        nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y - levelObjectHeight / 2, 0);
         // Spawn water object inbetween lastObject and nextObject
 
         float waterX = lastObject.transform.position.x + lastObjectRenderer.size.x;
@@ -160,9 +198,9 @@ public class LevelGenerator : MonoBehaviour
         Transform waterGround = water.transform.Find("Ground");
         SpriteRenderer waterRenderer = waterGround.gameObject.GetComponent<SpriteRenderer>();
         float waterXScale = nextSpawnPosition.x - (lastObject.transform.position.x + lastObjectRenderer.size.x);
-        waterRenderer.size = new Vector2(waterXScale, 200);
-        waterGround.GetComponent<BoxCollider2D>().size = new Vector2(waterXScale, 200);
-        waterGround.localPosition = new Vector3(waterXScale / 2, waterGround.localPosition.y - 100, 0);
+        waterRenderer.size = new Vector2(waterXScale, levelObjectHeight);
+        waterGround.GetComponent<BoxCollider2D>().size = new Vector2(waterXScale, levelObjectHeight);
+        waterGround.localPosition = new Vector3(waterXScale / 2, waterGround.localPosition.y - levelObjectHeight / 2, 0);
         water.transform.position = waterPosition;
 
         // Spawn animated water tiles on top of water surface

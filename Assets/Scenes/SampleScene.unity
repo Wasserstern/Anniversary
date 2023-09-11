@@ -1643,19 +1643,16 @@ MonoBehaviour:
   WaterLevelPart: {fileID: 1756718461186464155, guid: b94e47cfa6d017d469353e8c489d3a21, type: 3}
   AnimatedWaterTile: {fileID: 4951901332310891816, guid: bf2d91fb2fbdfd24dbc519367a946b93, type: 3}
   Crawler: {fileID: 3571792050723137767, guid: ec715bf8b835f704182e0b1993856c90, type: 3}
-  maxObjects: 100
   difficulty: 3
   crawlerChance: 0.4
-  generationIntervalInSeconds: 0.5
-  difficultyChangeIntervalInSeconds: 8
   levelModeIntervalInSeconds: 3
-  currentMode: 1
   minHeight: 8
   maxHeight: 4
   maxDistance: 6
   minDistance: 3
-  lastObject: {fileID: 3627396743621996699}
-  cascadeMaxWidth: 100
+  flatMaxWidth: 80
+  flatMinWidth: 40
+  cascadeMaxWidth: 50
   cascadeMinWidth: 5
   downHillMinHeight: 2
   downHillMaxHeight: 7
@@ -1663,6 +1660,13 @@ MonoBehaviour:
   downHillMaxWidth: 80
   upHillMaxHeight: 4
   upHillMinHeight: 1
+  levelObjectHeight: 20
+  maxObjects: 20
+  enforcedModes: 00000000
+  generationIntervalInSeconds: 0.5
+  difficultyChangeIntervalInSeconds: 8
+  currentMode: 1
+  lastObject: {fileID: 3627396743621996699}
 --- !u!4 &1472354003
 Transform:
   m_ObjectHideFlags: 0
@@ -2092,6 +2096,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yCameraOffset: 1.5
+  goalPaperScrapCount: 0
+  paperScrapGoals: 
+  currentDifficulty: 0
 --- !u!4 &1805702007
 Transform:
   m_ObjectHideFlags: 0
@@ -2107,6 +2114,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1821466888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1821466890}
+  - component: {fileID: 1821466889}
+  - component: {fileID: 1821466891}
+  m_Layer: 5
+  m_Name: UIDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1821466889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821466888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: aed895a87ca96e747b481c996c8e2244, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: a74430e3108dc35498a6596263611d69, type: 3}
+  m_SortingOrder: 0
+--- !u!4 &1821466890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821466888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1821466891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821466888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85e75809fc851144686a0c5aa6a9263a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterTexts:
+  - 1111111hahahahahhahaaaaaaaaaaaaaa
+  - 2222222222222222222222222222222222222
+  - 3333333333333333333333333333333333333333333333333
+  - 44444444444444444444444444444444444444444444444444
+  - 55555555555555555555555555555555555555
+  - 6666666666666666666666666666
+  - 7777777777777777777777777
+  - 888888888888888888888888
 --- !u!1 &1956868874
 GameObject:
   m_ObjectHideFlags: 0
