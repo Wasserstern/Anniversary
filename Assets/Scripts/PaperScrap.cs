@@ -8,11 +8,12 @@ public class PaperScrap : MonoBehaviour
     
     AllManager allmng;
     public int worth;
-    public Transform paperScrapUiPosition;
+    public Transform paperScrapsUiPosition;
     public float collectTime;
 
     void Start()
     {
+        paperScrapsUiPosition = GameObject.Find("PaperScrapsUI").transform;
         allmng = GameObject.Find("AllManager").GetComponent<AllManager>();
     }
 
@@ -29,11 +30,11 @@ public class PaperScrap : MonoBehaviour
         while(Time.time - startTime < collectTime){
             float t = elapsedTime / collectTime;
             t = EaseFunctions.easeInCubic(t);
-            transform.position = Vector2.Lerp(startPosition, (Vector2)paperScrapUiPosition.position, t);
+            transform.position = Vector2.Lerp(startPosition, (Vector2)paperScrapsUiPosition.position, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.position = paperScrapUiPosition.position;
+        transform.position = paperScrapsUiPosition.position;
         Destroy(this.gameObject);
     }
 

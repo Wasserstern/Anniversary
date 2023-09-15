@@ -14,11 +14,13 @@ public class LevelGenerator : MonoBehaviour
     public GameObject WaterLevelPart;
     public GameObject AnimatedWaterTile;
     public GameObject Crawler;
+    public GameObject PaperScrapGroup;
 
     // Difficulty and level modifiers
     public float difficulty; // Adjusts spawn chances, mode interval, platform sizes, gap sizes
     public enum LevelMode { flat, cascade, downhill, uphill, crazy}
     [Range (0, 1)]
+    public float paperScrapChance;
     public float crawlerChance;
     public float levelModeIntervalInSeconds;
     public float minHeight;
@@ -44,6 +46,7 @@ public class LevelGenerator : MonoBehaviour
     public float difficultyChangeIntervalInSeconds;
     public Queue<GameObject> currentLevelObjects;
     public Queue<GameObject> currentEnemies;
+    public Queue<GameObject> currentPaperScrapGroups;
     public LevelMode currentMode;
 
     public GameObject lastObject;
@@ -52,6 +55,7 @@ public class LevelGenerator : MonoBehaviour
     {
         currentLevelObjects = new Queue<GameObject>();
         currentEnemies = new Queue<GameObject>();
+        currentPaperScrapGroups = new Queue<GameObject>();
         //StartCoroutine(GenerateTimer());
         StartCoroutine(LevelModeTimer());
         // StartCoroutine(DifficultyTimer());
@@ -193,6 +197,16 @@ public class LevelGenerator : MonoBehaviour
         nextObjectRenderer.size = new Vector2(nextXScale, levelObjectHeight);
         nextObjectGround.GetComponent<BoxCollider2D>().size = new Vector2(nextXScale, levelObjectHeight);
         nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y - levelObjectHeight / 2, 0);
+        
+        // Spawn paper scrap 
+        if(Random.Range(0, 1f) <= paperScrapChance){
+            // Spawn paper scap pattern
+            Vector2 nextPaperScrapPosition = new Vector2(nextSpawnPosition.x + 0.5f, nextSpawnPosition.y + 1.5f);
+            GameObject paperScrapGroup = GameObject.Instantiate(PaperScrapGroup, nextPaperScrapPosition, new UnityEngine.Quaternion(0, 0, 0 ,0));
+            paperScrapGroup.GetComponent<PaperScrapGroup>().ActivateWithPattern(0, nextXScale);
+            currentPaperScrapGroups.Enqueue(paperScrapGroup);
+        }
+        
         // Spawn water object inbetween lastObject and nextObject
 
         float waterX = lastObject.transform.position.x + lastObjectRenderer.size.x;
@@ -221,6 +235,9 @@ public class LevelGenerator : MonoBehaviour
         currentLevelObjects.Enqueue(lastObject);
         if(currentLevelObjects.Count > maxObjects){
             GameObject.Destroy(currentLevelObjects.Dequeue());
+        }
+        if(currentPaperScrapGroups.Count > maxObjects){
+            GameObject.Destroy(currentPaperScrapGroups.Dequeue());
         }
         TryEnemySpawn(nextSpawnPosition, nextXScale);
         if(setGenerator){

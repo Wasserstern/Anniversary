@@ -1261,133 +1261,6 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   Lara: {fileID: 1043974005}
   parallaxEffect: 0.6
---- !u!1 &915044706
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 915044709}
-  - component: {fileID: 915044708}
-  - component: {fileID: 915044707}
-  - component: {fileID: 915044710}
-  m_Layer: 10
-  m_Name: PaperScrap
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!61 &915044707
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915044706}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!212 &915044708
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915044706}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &915044709
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915044706}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5949917, y: -1.89, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &915044710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915044706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c808e39b4b63c684e83e6b69929541a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worth: 150
-  paperScrapUiPosition: {fileID: 8201897}
-  collectTime: 0.2
 --- !u!1 &995006119
 GameObject:
   m_ObjectHideFlags: 0
@@ -2161,7 +2034,9 @@ MonoBehaviour:
   WaterLevelPart: {fileID: 1756718461186464155, guid: b94e47cfa6d017d469353e8c489d3a21, type: 3}
   AnimatedWaterTile: {fileID: 4951901332310891816, guid: bf2d91fb2fbdfd24dbc519367a946b93, type: 3}
   Crawler: {fileID: 3571792050723137767, guid: ec715bf8b835f704182e0b1993856c90, type: 3}
+  PaperScrapGroup: {fileID: 4897904425736403807, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
   difficulty: 3
+  paperScrapChance: 1
   crawlerChance: 0.4
   levelModeIntervalInSeconds: 3
   minHeight: 8
@@ -3146,6 +3021,67 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   Lara: {fileID: 1043974005}
   parallaxEffect: 1
+--- !u!1001 &2454097835214591847
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2454097835592723969, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: paperScrapUiPosition
+      value: 
+      objectReference: {fileID: 8201897}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.5949917
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723970, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454097835592723973, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
+      propertyPath: m_Name
+      value: PaperScrap
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f18cac7e9612074cba5d72aa6d1b525, type: 3}
 --- !u!1001 &3627396743621996698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3240,3 +3176,60 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1756718461186464155, guid: 57c28bfda180d93408e951d8f3a724bc, type: 3}
   m_PrefabInstance: {fileID: 3627396743621996698}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4897904423903564776
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403793, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897904425736403807, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+      propertyPath: m_Name
+      value: PaperScrapGroup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}

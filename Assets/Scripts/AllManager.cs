@@ -18,7 +18,9 @@ public class AllManager : MonoBehaviour
     
     // PlayerPref values
 
+    [SerializeField]
     int paperHighScore;
+    [SerializeField]
     float distanceHighScore;
 
     // UI stuff
@@ -42,6 +44,10 @@ public class AllManager : MonoBehaviour
             currentDifficulty++;
             levelGenerator.ChangeDifficulty(currentDifficulty);
         }
+        if(currentPaperScraps >= paperHighScore){
+            paperHighScore = currentPaperScraps;
+            PlayerPrefs.SetInt("paperHightScore", paperHighScore);
+        }
         paperScrapsText.text = currentPaperScraps.ToString();
     }
     void Start()
@@ -49,10 +55,12 @@ public class AllManager : MonoBehaviour
         levelGenerator = GameObject.Find("LevelGenerator").GetComponent<LevelGenerator>();
         if(PlayerPrefs.HasKey("paperHighScore")){
             paperHighScore = PlayerPrefs.GetInt("paperHighScore");
+
         }
         else{
             paperHighScore = 0;
             PlayerPrefs.SetInt("paperHighScore", 0);
+            PlayerPrefs.Save();
         }
 
         if(PlayerPrefs.HasKey("distanceHighScore")){
@@ -80,7 +88,7 @@ public class AllManager : MonoBehaviour
         }
         else{
             // Still goals to reach. Not all letters unlocked.
-            for(int i = 0; i < scoreBreaks; i++){
+            for(int i = 0; i < scoreBreaks ; i++){
                 currentPaperScraps = paperHighScore - sum;
                 goalIndex = scoreBreaks;
             }
@@ -90,6 +98,5 @@ public class AllManager : MonoBehaviour
 
     void Update()
     {
-        
     }
 }
