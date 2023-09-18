@@ -1644,7 +1644,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1107443090}
   m_Layer: 0
-  m_Name: Paralla
+  m_Name: Parallax
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2035,6 +2035,23 @@ MonoBehaviour:
   AnimatedWaterTile: {fileID: 4951901332310891816, guid: bf2d91fb2fbdfd24dbc519367a946b93, type: 3}
   Crawler: {fileID: 3571792050723137767, guid: ec715bf8b835f704182e0b1993856c90, type: 3}
   PaperScrapGroup: {fileID: 4897904425736403807, guid: 82a09e5dc0e372f418b4fbb7a11042e8, type: 3}
+  Foliage: {fileID: 8981555202258450753, guid: f2bc4ab793a86964baba7fda952387df, type: 3}
+  grassSprites:
+  - {fileID: 21300000, guid: 0719bcc6fff7ec64c9263909dd829ad0, type: 3}
+  - {fileID: 21300000, guid: 3dc9b23f7daebe14280c0dc0c9ca5537, type: 3}
+  - {fileID: 21300000, guid: 1e209b763de089c4d9d22a19ddb3063b, type: 3}
+  - {fileID: 21300000, guid: e82e4e530f6dd4b44a12ee8ee2fd160a, type: 3}
+  smallFoliageSprites:
+  - {fileID: 21300000, guid: 34fe4d4dffeedf948831088d294fbb6f, type: 3}
+  - {fileID: 21300000, guid: ab0c2cd78d552d1419c7b98ffc3735b6, type: 3}
+  - {fileID: 21300000, guid: c599f610667fd9e419bed5aa7ac05718, type: 3}
+  - {fileID: 21300000, guid: 370abce41a96ef34cb9f296ac55431c8, type: 3}
+  - {fileID: 21300000, guid: 2f2ddc7e8da569c46a40c68ebbd7223b, type: 3}
+  - {fileID: 21300000, guid: 1ed84d2d27492864eb089583d8661c99, type: 3}
+  bigSunflowerSprites:
+  - {fileID: 21300000, guid: 195d2b0df1215ea4985b25f201320350, type: 3}
+  - {fileID: 21300000, guid: 2ef809de7d4a8ae49bcb20f72a327f9b, type: 3}
+  - {fileID: 21300000, guid: 8a4275feb23b88d4d83d2c1d607f0e38, type: 3}
   difficulty: 3
   paperScrapChance: 1
   crawlerChance: 0.4
@@ -2060,6 +2077,8 @@ MonoBehaviour:
   difficultyChangeIntervalInSeconds: 8
   currentMode: 1
   lastObject: {fileID: 3627396743621996699}
+  smallFoliageChance: 0.54
+  bigSunflowerChance: 0.291
 --- !u!4 &1472354003
 Transform:
   m_ObjectHideFlags: 0
@@ -2435,6 +2454,8 @@ MonoBehaviour:
   paperScrapGoals: 6400000064000000640000006400000064000000
   peakGoal: 0
   currentDifficulty: 0
+  paperHighScore: 0
+  distanceHighScore: 0
   paperScrapsText: {fileID: 808933809}
 --- !u!4 &1805702007
 Transform:

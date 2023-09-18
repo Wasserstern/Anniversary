@@ -15,6 +15,11 @@ public class LevelGenerator : MonoBehaviour
     public GameObject AnimatedWaterTile;
     public GameObject Crawler;
     public GameObject PaperScrapGroup;
+    public GameObject Foliage;
+
+    public List<Sprite> grassSprites;
+    public List<Sprite> smallFoliageSprites;
+    public List<Sprite> bigSunflowerSprites;
 
     // Difficulty and level modifiers
     public float difficulty; // Adjusts spawn chances, mode interval, platform sizes, gap sizes
@@ -47,15 +52,20 @@ public class LevelGenerator : MonoBehaviour
     public Queue<GameObject> currentLevelObjects;
     public Queue<GameObject> currentEnemies;
     public Queue<GameObject> currentPaperScrapGroups;
+    public Queue<GameObject> currentFoliageGroups;
     public LevelMode currentMode;
-
     public GameObject lastObject;
+    [Range(0, 1)]
+    public float smallFoliageChance;
+    [Range(0, 1)]
+    public float bigSunflowerChance;
   
     void Start()
     {
         currentLevelObjects = new Queue<GameObject>();
         currentEnemies = new Queue<GameObject>();
         currentPaperScrapGroups = new Queue<GameObject>();
+        currentFoliageGroups = new Queue<GameObject>();
         //StartCoroutine(GenerateTimer());
         StartCoroutine(LevelModeTimer());
         // StartCoroutine(DifficultyTimer());
@@ -215,6 +225,8 @@ public class LevelGenerator : MonoBehaviour
             paperScrapGroup.GetComponent<PaperScrapGroup>().ActivateWithPattern(3, nextXScale);
             currentPaperScrapGroups.Enqueue(paperScrapGroup);
         }
+
+        SpawnFoliage(nextSpawnPosition, Mathf.FloorToInt(nextXScale));
         
         // Spawn water object inbetween lastObject and nextObject
 
@@ -227,12 +239,13 @@ public class LevelGenerator : MonoBehaviour
         float waterXScale = nextSpawnPosition.x - (lastObject.transform.position.x + lastObjectRenderer.size.x);
         waterRenderer.size = new Vector2(waterXScale, levelObjectHeight);
         waterGround.GetComponent<BoxCollider2D>().size = new Vector2(waterXScale, levelObjectHeight);
-        waterGround.localPosition = new Vector3(waterXScale / 2, waterGround.localPosition.y - levelObjectHeight / 2, 0);
+        float randomWaterOffset = Random.Range(0.25f, 1f);
+        waterGround.localPosition = new Vector3(waterXScale / 2, waterGround.localPosition.y - levelObjectHeight / 2 -randomWaterOffset, 0);
         water.transform.position = waterPosition;
 
         // Spawn animated water tiles on top of water surface
         int waterTileCount = Mathf.FloorToInt(waterXScale) +1;
-        Vector2 waterTilePosition = new Vector2(waterPosition.x + 0.5f, waterPosition.y + 0.3f);
+        Vector2 waterTilePosition = new Vector2(waterPosition.x + 0.5f, waterPosition.y + 0.3f -randomWaterOffset);
         for(int i = 0; i < waterTileCount; i++){
             GameObject waterTile = GameObject.Instantiate(AnimatedWaterTile);
             waterTile.transform.position = waterTilePosition;
@@ -248,10 +261,57 @@ public class LevelGenerator : MonoBehaviour
         if(currentPaperScrapGroups.Count > maxObjects){
             GameObject.Destroy(currentPaperScrapGroups.Dequeue());
         }
+        if(currentFoliageGroups.Count > maxObjects){
+            GameObject.Destroy(currentFoliageGroups.Dequeue());
+        }
         TryEnemySpawn(nextSpawnPosition, nextXScale);
         if(setGenerator){
             transform.position = nextSpawnPosition;
         }
+    }
+
+    void SpawnFoliage(Vector2 groundStartPosition, int groundXScale){
+        GameObject foliageGroup = new GameObject("FoliageGroup");
+        for(int i = 0; i < groundXScale; i++){
+            // Spawn grass
+            GameObject grassFoliage = GameObject.Instantiate(Foliage);
+            SpriteRenderer grassRenderer = grassFoliage.GetComponent<SpriteRenderer>();
+            grassRenderer.sprite = grassSprites[Random.Range(0, grassSprites.Count)];
+            grassRenderer.sortingOrder = 1;
+            grassFoliage.transform.position = new Vector2(groundStartPosition.x + 0.5f + i, groundStartPosition.y + grassRenderer.bounds.size.y / 2 -0.25f);
+            grassFoliage.transform.SetParent(foliageGroup.transform);
+
+            // Spawn small background foliage
+            if(Random.RandomRange(0f, 1f) <= smallFoliageChance){
+                GameObject backgroundFoliage = GameObject.Instantiate(Foliage);
+                SpriteRenderer backgroundFoliageRenderer = backgroundFoliage.GetComponent<SpriteRenderer>();
+                backgroundFoliageRenderer.sprite = smallFoliageSprites[Random.Range(0, smallFoliageSprites.Count)];
+                backgroundFoliageRenderer.sortingOrder = -1;
+                backgroundFoliage.transform.position = new Vector2(groundStartPosition.x + 0.5f + i, groundStartPosition.y + backgroundFoliageRenderer.bounds.size.y / 2 -0.25f);
+                backgroundFoliage.transform.SetParent(foliageGroup.transform);
+            }
+        }
+        // Spawn big background sunflowers
+            int maxSunflowers = Mathf.FloorToInt(groundXScale / Foliage.GetComponent<SpriteRenderer>().bounds.size.x);
+            Vector2 currentSunflowerPosition = groundStartPosition;
+            for(int i = 0; i < maxSunflowers; i++){
+                if(Random.Range(0f, 1f) <= bigSunflowerChance){
+                GameObject bigSunflower = GameObject.Instantiate(Foliage);
+                SpriteRenderer bigSunflowerRenderer = bigSunflower.GetComponent<SpriteRenderer>();
+                bigSunflowerRenderer.sprite = bigSunflowerSprites[Random.Range(0, bigSunflowerSprites.Count)];
+                bigSunflowerRenderer.sortingOrder = -2;
+                float xOffset = Random.Range(0.25f, bigSunflowerRenderer.bounds.size.x);
+                bigSunflower.transform.position = new Vector2(currentSunflowerPosition.x + xOffset, currentSunflowerPosition.y + bigSunflowerRenderer.bounds.size.y / 2 -0.25f);
+                if(xOffset >= bigSunflowerRenderer.bounds.size.x / 2){
+                    i++;
+                    currentSunflowerPosition = new Vector2(currentSunflowerPosition.x + bigSunflowerRenderer.bounds.size.x, currentSunflowerPosition.y);
+                }
+                currentSunflowerPosition = new Vector2(currentSunflowerPosition.x + bigSunflowerRenderer.bounds.size.x, currentSunflowerPosition.y);
+                bigSunflower.transform.SetParent(foliageGroup.transform);
+                }
+
+            }
+            
     }
 
     void TryEnemySpawn(Vector2 groundPosition, float groundWidth){
