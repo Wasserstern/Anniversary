@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/LetterMenu.uss?fileID=7433441132597879392&amp;guid=cde05122a45d9164b9180daa660f4e01&amp;type=3#LetterMenu" />
     <ui:VisualElement name="MainContainer" style="display: flex; align-items: center; justify-content: center; height: 100%; max-width: none; width: 100%; flex-wrap: nowrap; white-space: normal; -unity-text-align: upper-left; flex-direction: column; flex-basis: auto;">
-        <ui:Button text="Button" display-tooltip-when-elided="true" name="BackButton" />
+        <ui:Button text="Button" display-tooltip-when-elided="true" name="BackButton" style="translate: -100px 0; transform-origin: center; margin-right: auto; margin-left: 0; transition-property: translate; transition-duration: 0.5s; transition-timing-function: ease-out-cubic;" />
         <ui:VisualElement name="LetterContainer" style="flex-direction: row; flex-wrap: wrap; align-items: flex-start; justify-content: center; flex-basis: auto; max-width: 45%;">
             <ui:VisualElement name="Letter" class="Letter" />
             <ui:VisualElement name="Letter" class="Letter" />
@@ -12,7 +12,7 @@
             <ui:VisualElement name="Letter" class="Letter" />
             <ui:VisualElement name="Letter" class="Letter" />
         </ui:VisualElement>
-        <ui:VisualElement name="SelectedLetterContainer" focusable="false" style="color: rgb(255, 255, 255); background-color: rgb(255, 255, 255); visibility: hidden; position: absolute; margin-bottom: 0; translate: 0 -98px;">
+        <ui:VisualElement name="SelectedLetterContainer" focusable="false" style="color: rgb(255, 255, 255); background-color: rgb(255, 255, 255); visibility: hidden; position: absolute; margin-bottom: 0; translate: 0 0; transition-property: opacity, height, width; transition-duration: 0.5s, 0.5s, 0.5s; transition-timing-function: ease-out-cubic, ease-out-cubic, ease-out-cubic; transition-delay: 0s, 0s, 0s; width: 40%; height: 80%; margin-top: 0;">
             <ui:TextField picking-mode="Ignore" label=" Field" value="filler text" text="filler text" name="LetterText" />
         </ui:VisualElement>
     </ui:VisualElement>

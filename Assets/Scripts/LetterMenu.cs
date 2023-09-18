@@ -7,11 +7,17 @@ public class LetterMenu : MonoBehaviour
 {
     public List<string> letterTexts;
     AllManager allmng;
+
+    VisualElement selectedLetterContainer;
+    Button backButton;
  
     // Start is called before the first frame update
     void Start()
     {
         allmng = GameObject.Find("AllManager").GetComponent<AllManager>();
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        selectedLetterContainer = root.Q<VisualElement>("SelectedLetterContainer");
+        backButton = root.Q<Button>("BackButton");
     }
 
     // Update is called once per frame
@@ -20,7 +26,6 @@ public class LetterMenu : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape)){
             VisualElement root = GetComponent<UIDocument>().rootVisualElement;
             if(root.visible){
-                root.Q<VisualElement>("SelectedLetterContainer").visible = false;
                 root.visible = false;
                 Time.timeScale = 1;
             }
@@ -28,6 +33,7 @@ public class LetterMenu : MonoBehaviour
                 Time.timeScale = 0;
                 root.visible = true;
             }
+                CloseLetter();
         }   
     }
 
@@ -35,11 +41,14 @@ public class LetterMenu : MonoBehaviour
     private void ClickedLetter(ClickEvent evt, string letterText){
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         root.Q<TextField>("LetterText").value = letterText;
-        root.Q<VisualElement>("SelectedLetterContainer").visible = true;
+        OpenLetter();
     }
 
     private void OnEnable(){
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        selectedLetterContainer = root.Q<VisualElement>("SelectedLetterContainer");
+        backButton = root.Q<Button>("BackButton");
+        CloseLetter();
         root.visible = false;
         List<VisualElement> letters = root.Query(className: "Letter").ToList();
 
@@ -47,8 +56,23 @@ public class LetterMenu : MonoBehaviour
             letters[i].RegisterCallback<ClickEvent, string>(ClickedLetter, letterTexts[i]);
         }
         root.Q<Button>("BackButton").clicked += () =>{
-            root.Q<VisualElement>("SelectedLetterContainer").visible = false;
+            CloseLetter();
         };
+        
+    }
+
+    void CloseLetter(){
+        selectedLetterContainer.visible = false;
+        selectedLetterContainer.style.opacity = 0;
+        selectedLetterContainer.style.width = Length.Percent(0);
+        selectedLetterContainer.style.height = Length.Percent(0);
+        backButton.visible = false;
+    }
+    void OpenLetter(){
+        selectedLetterContainer.visible = true;
+        selectedLetterContainer.style.opacity = 1;
+        selectedLetterContainer.style.width = Length.Percent(40);
+        selectedLetterContainer.style.height = Length.Percent(80);
     }
 
 }
