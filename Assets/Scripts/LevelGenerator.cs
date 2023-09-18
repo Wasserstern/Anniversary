@@ -198,12 +198,21 @@ public class LevelGenerator : MonoBehaviour
         nextObjectGround.GetComponent<BoxCollider2D>().size = new Vector2(nextXScale, levelObjectHeight);
         nextObjectGround.localPosition = new Vector3(nextXScale / 2, nextObjectGround.localPosition.y - levelObjectHeight / 2, 0);
         
-        // Spawn paper scrap 
+        // Spawn paper scrap above ground
         if(Random.Range(0, 1f) <= paperScrapChance){
             // Spawn paper scap pattern
             Vector2 nextPaperScrapPosition = new Vector2(nextSpawnPosition.x + 0.5f, nextSpawnPosition.y + 1.5f);
             GameObject paperScrapGroup = GameObject.Instantiate(PaperScrapGroup, nextPaperScrapPosition, new UnityEngine.Quaternion(0, 0, 0 ,0));
             paperScrapGroup.GetComponent<PaperScrapGroup>().ActivateWithPattern(0, nextXScale);
+            currentPaperScrapGroups.Enqueue(paperScrapGroup);
+        }
+
+        // Spawn paper scrap above water
+
+        if(Random.Range(0, 1f) <= paperScrapChance){
+            Vector2 nextPaperScrapPosition = new Vector2(nextSpawnPosition.x + nextXScale, nextSpawnPosition.y + 1.5f);
+            GameObject paperScrapGroup = GameObject.Instantiate(PaperScrapGroup, nextPaperScrapPosition, new UnityEngine.Quaternion(0, 0, 0 ,0));
+            paperScrapGroup.GetComponent<PaperScrapGroup>().ActivateWithPattern(3, nextXScale);
             currentPaperScrapGroups.Enqueue(paperScrapGroup);
         }
         

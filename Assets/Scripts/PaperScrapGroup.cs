@@ -32,6 +32,19 @@ public class PaperScrapGroup : MonoBehaviour
                 // Circle pattern
                 break;
             }
+            case 2:{
+                // Box pattern
+                
+                break;
+            }
+            case 3:{
+                // Diagonal above water ( / )
+                for(int i = 0; i < 3; i++){
+                    GameObject nextPaperScrap = GameObject.Instantiate(PaperScrap, transform);
+                    nextPaperScrap.transform.localPosition = new Vector2(i, nextPaperScrap.transform.localPosition.y + (i * 0.8f));
+                }
+                break;
+            }
         }
     }
 }
