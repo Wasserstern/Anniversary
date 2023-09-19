@@ -11,16 +11,17 @@ public class Parallax : MonoBehaviour
     public Camera cam;
     public GameObject Lara;
     public float parallaxEffect;
-    float  spriteLength;
-    Vector3 startPosition;
+    float  length;
+    float startPosition;
 
-    SpriteRenderer spriteRenderer;
+    public float yOffset;
+
     void Start()
     {
         allmng = GameObject.Find("AllManager").GetComponent<AllManager>();
-        startPosition = transform.position;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteLength = spriteRenderer.bounds.size.x;
+        startPosition = transform.position.x;
+
+        length = GetComponentInChildren<SpriteRenderer>().bounds.size.x;
     }
 
     // Update is called once per frame
@@ -29,13 +30,13 @@ public class Parallax : MonoBehaviour
         float temp = cam.transform.position.x * (1 - parallaxEffect);
         float camDistance = cam.transform.position.x * parallaxEffect;
 
-        transform.position = new Vector3(startPosition.x + camDistance, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+        transform.position = new Vector3(startPosition + camDistance, Lara.transform.position.y + allmng.yCameraOffset + yOffset, 0f);
 
-        if (temp > startPosition.x + spriteLength){
-            startPosition = new Vector3(startPosition.x + spriteLength, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+        if (temp > startPosition + length){
+            startPosition += length;
         }
-        else if(temp < startPosition.x - spriteLength){
-            startPosition = new Vector3(startPosition.x - spriteLength, Lara.transform.position.y + allmng.yCameraOffset, 0f);
+        else if(temp < startPosition - length){
+            startPosition -= length;
         }
     }
 

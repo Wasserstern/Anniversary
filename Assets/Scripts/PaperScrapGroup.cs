@@ -22,9 +22,9 @@ public class PaperScrapGroup : MonoBehaviour
         switch(patternIndex){
             case 0:{
                 // Line pattern
-                for(int i = 0; i < Mathf.FloorToInt(groundXScale); i++){
+                for(int i = 0; i < Mathf.FloorToInt(groundXScale / 1.5f); i++){
                     GameObject nextPaperScrap = GameObject.Instantiate(PaperScrap, transform);
-                    nextPaperScrap.transform.localPosition = new Vector2(i, nextPaperScrap.transform.localPosition.y);
+                    nextPaperScrap.transform.localPosition = new Vector2(i * 1.5f, nextPaperScrap.transform.localPosition.y);
                 }
                 break;
             }

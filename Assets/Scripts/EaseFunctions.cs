@@ -74,4 +74,7 @@ public static class EaseFunctions
             return 1 - Mathf.Pow(2, -10 *x);
         }
     }
+    public static float easeInOutQuint(float x){
+        return x < 0.5 ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
+    }
 }

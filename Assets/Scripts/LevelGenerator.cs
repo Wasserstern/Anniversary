@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 using Unity.VisualScripting;
 public class LevelGenerator : MonoBehaviour
 {
-
+    Lara lara;
     public GameObject StandardLevelPart;
     public GameObject WaterLevelPart;
     public GameObject AnimatedWaterTile;
@@ -43,6 +43,9 @@ public class LevelGenerator : MonoBehaviour
     public float upHillMaxHeight;
     public float upHillMinHeight;
 
+    public float uphillMinWidth;
+    public float upHillMaxWidth;
+
     public int levelObjectHeight;
     public int maxObjects;
     public List<LevelMode> enforcedModes;
@@ -59,9 +62,12 @@ public class LevelGenerator : MonoBehaviour
     public float smallFoliageChance;
     [Range(0, 1)]
     public float bigSunflowerChance;
+
+    int currentDifficulty;
   
     void Start()
     {
+        lara = GameObject.Find("Lara").GetComponent<Lara>();
         currentLevelObjects = new Queue<GameObject>();
         currentEnemies = new Queue<GameObject>();
         currentPaperScrapGroups = new Queue<GameObject>();
@@ -110,23 +116,56 @@ public class LevelGenerator : MonoBehaviour
     public void ChangeDifficulty(int newDifficultyLevel){
         StopCoroutine(LevelModeTimer());
         // Adjust each difficulty level here.
+        currentDifficulty = newDifficultyLevel;
         switch(newDifficultyLevel){
             case 0:{
+                // start difficulty set via editor
                 break;
             }
             case 1:{
+                crawlerChance = 0.8f;
+                currentMode = LevelMode.uphill;
+                enforcedModes = new List<LevelMode> {LevelMode.uphill};
+                upHillMaxWidth = 20;
+                uphillMinWidth = 10;
                 break;
             }
             case 2:{
+                crawlerChance = 1f;
+                currentMode = LevelMode.cascade;
+                enforcedModes = new List<LevelMode> {LevelMode.cascade};
+                cascadeMaxWidth = 20;
+                cascadeMinWidth = 10;
                 break;
             }
             case 3:{
+                currentMode = LevelMode.downhill;
+                enforcedModes = new List<LevelMode> {LevelMode.cascade, LevelMode.uphill, LevelMode.downhill};
+                cascadeMaxWidth = 15;
+                cascadeMinWidth = 7;
+                uphillMinWidth = 7;
+                upHillMaxWidth = 15;
+                downHillMinWidth = 7;
+                downHillMaxWidth = 15;
                 break;
             }
             case 4:{
+                currentMode = LevelMode.flat;
+                enforcedModes = new List<LevelMode> {LevelMode.cascade, LevelMode.uphill, LevelMode.downhill, LevelMode.flat};
+                cascadeMinWidth = 10;
+                uphillMinWidth = 10;
+                downHillMinWidth = 10;
+                flatMaxWidth = 18;
+                flatMinWidth = 10;
+                lara.normalSpeed = lara.normalSpeed + 3.5f;
+                minDistance = 4.5f;
+                maxDistance = 8f;
                 break;
             }
             case 5:{
+                lara.normalSpeed = lara.normalSpeed + 3f;
+                minDistance = 5f;
+                maxDistance = 9.5f;
                 break;
             }
             case 6:{
@@ -191,7 +230,7 @@ public class LevelGenerator : MonoBehaviour
             }
             case LevelMode.uphill:{
                 nextSpawnPosition = new Vector2(lastObject.transform.position.x + lastObjectRenderer.size.x + Random.Range(minDistance, maxDistance), lastObject.transform.position.y + Random.Range(upHillMinHeight, upHillMaxHeight));
-                nextXScale = Random.Range(downHillMinWidth, downHillMaxWidth);
+                nextXScale = Random.Range(uphillMinWidth, upHillMaxWidth);
                 break;
             }
             case LevelMode.crazy:{
@@ -320,9 +359,9 @@ public class LevelGenerator : MonoBehaviour
         Vector2 enemyPosition = new Vector2();
         if(!justSpawnedEnemy){
             if(Random.Range(0f, 1f) <= crawlerChance){
-                enemyPosition = new Vector2(groundPosition.x + 0.5f + Random.Range(0f, groundWidth -1f), groundPosition.y + 0.5f);
+                enemyPosition = new Vector2(groundPosition.x + 0.5f + Random.Range(0f, groundWidth -1f), groundPosition.y -0.25f);
                 nextEnemy = GameObject.Instantiate(Crawler, enemyPosition, new UnityEngine.Quaternion(0, 0, 0, 0));
-                nextEnemy.SendMessage("SetCrawler", Random.Range(difficulty / 3, difficulty));
+                nextEnemy.SendMessage("SetCrawlerLeft", Random.Range(difficulty / 3, difficulty));
                 spawningEnemy = true;
             }
             justSpawnedEnemy = true;

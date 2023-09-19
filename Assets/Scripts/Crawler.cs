@@ -11,10 +11,11 @@ public class Crawler : MonoBehaviour
     [SerializeField]
     bool isActive;
     public Transform groundCheckTransform;
+    SpriteRenderer renderer;
 
     void Start()
     {
-        
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     void SetCrawler(float speed){
@@ -29,6 +30,15 @@ public class Crawler : MonoBehaviour
         defaultSpeed = speed;
         isActive =true;
     }
+    void SetCrawlerLeft(float speed){
+        
+        isFacingRight = false;
+        float distanceToCrawler = Vector2.Distance(groundCheckTransform.position, transform.position);
+        groundCheckTransform.localPosition = new Vector2(groundCheckTransform.localPosition.x - distanceToCrawler * 2, groundCheckTransform.localPosition.y);
+        defaultSpeed = speed;
+        isActive =true;
+        
+    }
 
     void Update()
     {
@@ -38,9 +48,11 @@ public class Crawler : MonoBehaviour
 
             if(isFacingRight){
                 transform.position = new Vector3(transform.position.x + defaultSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+                renderer.flipX = true;
             }
             else{
                 transform.position = new Vector3(transform.position.x - defaultSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+                renderer.flipX = false;
             }
         }
        
@@ -58,7 +70,7 @@ public class Crawler : MonoBehaviour
             }
             else{
                 isFacingRight = true;
-                groundCheckTransform.localPosition = new Vector2(groundCheckTransform.localPosition.x + distanceToCrawler * 2, groundCheckTransform.localPosition.y);
+                 groundCheckTransform.localPosition = new Vector2(groundCheckTransform.localPosition.x + distanceToCrawler * 2, groundCheckTransform.localPosition.y);
             }
         }
         else{

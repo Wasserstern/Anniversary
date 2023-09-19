@@ -23,6 +23,7 @@ public class PaperScrap : MonoBehaviour
     }
 
     IEnumerator CollectScrap(){
+        GetComponent<AudioSource>().Play();
         float startTime = Time.time;
         float elapsedTime = 0f;
         Vector2 startPosition = (Vector2)transform.position;
