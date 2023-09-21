@@ -56,6 +56,7 @@ public class AllManager : MonoBehaviour
                     unlockedLetters[unlockIndex] = true;
                     PlayerPrefs.SetInt("unlockedLetters" + unlockIndex.ToString(), 1);
                     unlockIndex++;
+                    PlayerPrefs.Save();
 
                     //TODO: Display: "Unlocked letter part! Press Escape to view unlocked letters."
                 }
@@ -89,16 +90,20 @@ public class AllManager : MonoBehaviour
         }
         else{
             PlayerPrefs.SetFloat("distanceHighScore", 0f);
+            PlayerPrefs.Save();
         }
 
         for(int i = 0; i < unlockedLetters.Length; i++){
             if(PlayerPrefs.HasKey("unlockedLetter" + i.ToString())){
-                unlockedLetters[i] = PlayerPrefs.GetInt("unlockedLetter") == 1;
+                Debug.Log("Found playerPrefs:" + PlayerPrefs.GetInt("unlockedLetter" + i.ToString()));
+                unlockedLetters[i] = PlayerPrefs.GetInt("unlockedLetter" + i.ToString()) == 1;
             }
             else{
                 PlayerPrefs.SetInt("unlockedLetters" + i.ToString(), 0);
+                PlayerPrefs.Save();
             }
         }
+    
         
         int scoreBreaks = 0;
         int sum = 0;
