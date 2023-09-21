@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class AllManager : MonoBehaviour
 {
+
     LevelGenerator levelGenerator;
     public float yCameraOffset;
     int currentPaperScraps;
@@ -15,6 +16,12 @@ public class AllManager : MonoBehaviour
     public int peakGoal;
     public int currentDifficulty;
     int goalIndex;
+
+    public bool[] unlockedLetters;
+    int unlockIndex;
+    
+    
+    
     
     // PlayerPref values
 
@@ -43,6 +50,18 @@ public class AllManager : MonoBehaviour
             }
             currentDifficulty++;
             levelGenerator.ChangeDifficulty(currentDifficulty);
+
+            if(unlockIndex < unlockedLetters.Length){
+                if(!unlockedLetters[unlockIndex]){
+                    unlockedLetters[unlockIndex] = true;
+                    PlayerPrefs.SetInt("unlockedLetters" + unlockIndex.ToString(), 1);
+                    unlockIndex++;
+
+                    //TODO: Display: "Unlocked letter part! Press Escape to view unlocked letters."
+                }
+                
+            }
+
         }
         if(currentPaperScraps >= paperHighScore){
             paperHighScore = currentPaperScraps;
@@ -52,6 +71,8 @@ public class AllManager : MonoBehaviour
     }
     void Start()
     {
+        // Change array size to change letter count
+        unlockedLetters = new bool[8];
         levelGenerator = GameObject.Find("LevelGenerator").GetComponent<LevelGenerator>();
         if(PlayerPrefs.HasKey("paperHighScore")){
             paperHighScore = PlayerPrefs.GetInt("paperHighScore");
@@ -68,6 +89,15 @@ public class AllManager : MonoBehaviour
         }
         else{
             PlayerPrefs.SetFloat("distanceHighScore", 0f);
+        }
+
+        for(int i = 0; i < unlockedLetters.Length; i++){
+            if(PlayerPrefs.HasKey("unlockedLetter" + i.ToString())){
+                unlockedLetters[i] = PlayerPrefs.GetInt("unlockedLetter") == 1;
+            }
+            else{
+                PlayerPrefs.SetInt("unlockedLetters" + i.ToString(), 0);
+            }
         }
         
         int scoreBreaks = 0;
@@ -98,5 +128,10 @@ public class AllManager : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKey(KeyCode.U) && Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.O)){
+            PlayerPrefs.DeleteAll();
+            Debug.Log("PlayerPrefs deleted!");
+            StartCoroutine(GameObject.Find("Lara").GetComponent<Lara>().Retry());
+        }
     }
 }

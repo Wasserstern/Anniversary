@@ -108,7 +108,7 @@ public class Lara : MonoBehaviour
         }
     }
 
-    IEnumerator Retry(){
+    public IEnumerator Retry(){
         GameObject disappearCircle = GameObject.Find("DisappearCircle");
         float startTime = Time.time;
         float elapsedTime = 0f;

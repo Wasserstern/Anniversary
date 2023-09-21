@@ -38,10 +38,24 @@ public class LetterMenu : MonoBehaviour
     }
 
     
-    private void ClickedLetter(ClickEvent evt, string letterText){
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-        root.Q<TextField>("LetterText").value = letterText;
-        OpenLetter();
+    private void ClickedLetter(ClickEvent evt, Letter letter){
+        if(allmng.unlockedLetters[letter.index]){
+            VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+            root.Q<TextField>("LetterText").value = letter.text;
+            OpenLetter();
+        }
+        else{
+            // TODO: Add "not unlocked" animation or some sounds
+        }
+    }
+
+    class Letter{
+        public int index;
+        public string text;
+        public Letter(int index, string text){
+            this.index = index;
+            this.text = text;
+        }
     }
 
     private void OnEnable(){
@@ -51,9 +65,9 @@ public class LetterMenu : MonoBehaviour
         CloseLetter();
         root.visible = false;
         List<VisualElement> letters = root.Query(className: "Letter").ToList();
-
         for(int i = 0; i < letters.Count; i++){
-            letters[i].RegisterCallback<ClickEvent, string>(ClickedLetter, letterTexts[i]);
+            Letter letter = new Letter(i, letterTexts[i]);
+            letters[i].RegisterCallback<ClickEvent, Letter>(ClickedLetter, letter);
         }
         root.Q<Button>("BackButton").clicked += () =>{
             CloseLetter();
