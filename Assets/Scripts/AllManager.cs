@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using UnityEngine.UIElements.Experimental;
 
 
 public class AllManager : MonoBehaviour
@@ -33,9 +35,34 @@ public class AllManager : MonoBehaviour
     // UI stuff
 
     public TextMeshProUGUI paperScrapsText;
+    public TextMeshProUGUI goalPaperScrapsText;
+    public RectTransform gameMessageContainer;
+    public float gameMessageAppearTime;
 
 
-
+    public IEnumerator GameMessageAppear(){
+        float startTime = Time.time;
+        float elapsedTime = 0f;
+        while(Time.time - startTime < gameMessageAppearTime){
+            float f = elapsedTime / gameMessageAppearTime;
+            f = EaseFunctions.easeInCubic(f);
+            gameMessageContainer.localPosition = Vector3.Lerp(new Vector3(-1000, 154.7f, 0), new Vector3(0, 154.7f, 0), f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        gameMessageContainer.localPosition = new Vector3(0, 154.7f, 0);
+        yield return new WaitForSeconds(4f);
+        elapsedTime = 0f;
+        startTime = Time.time;
+        while(Time.time - startTime < gameMessageAppearTime){
+            float f = elapsedTime / gameMessageAppearTime;
+            f = EaseFunctions.easeInCubic(f);
+            gameMessageContainer.localPosition = Vector3.Lerp(new Vector3(0,154.7f, 0), new Vector3(-1000, 154.7f, 0), f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        gameMessageContainer.localPosition = new Vector3(-1000, 154.7f ,0);
+    }
     public void CollectPaperScrap(int count){
         currentPaperScraps += count;
         if(currentPaperScraps >= goalPaperScrapCount){
@@ -59,6 +86,7 @@ public class AllManager : MonoBehaviour
                     PlayerPrefs.Save();
 
                     //TODO: Display: "Unlocked letter part! Press Escape to view unlocked letters."
+                    StartCoroutine(GameMessageAppear());
                 }
                 
             }
@@ -69,6 +97,7 @@ public class AllManager : MonoBehaviour
             PlayerPrefs.SetInt("paperHightScore", paperHighScore);
         }
         paperScrapsText.text = currentPaperScraps.ToString();
+        goalPaperScrapsText.text = paperScrapGoals[goalIndex].ToString();
     }
     void Start()
     {
@@ -129,6 +158,7 @@ public class AllManager : MonoBehaviour
             }
         }
         goalPaperScrapCount = paperScrapGoals[goalIndex];
+        goalPaperScrapsText.text = paperScrapGoals[goalIndex].ToString();
     }
 
     void Update()

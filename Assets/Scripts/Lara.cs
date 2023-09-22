@@ -194,10 +194,12 @@ public class Lara : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")){
-            // Boost upwards
-            Debug.Log("Should boost");
-            jumpCoroutine = Jump();
-            StartCoroutine(Jump());
+            gameStarted = false;
+            animator.SetTrigger("death");
+            rgbd.velocity = new Vector3(0, 0, 0);
+            rgbd.AddForce(transform.up * deathHitForce, ForceMode2D.Impulse);
+            rgbd.gravityScale = 0.5f;
+            StartCoroutine(Retry());
         }
         else if(other.gameObject.layer == LayerMask.NameToLayer("Ocean")){
             gameStarted = false;
@@ -206,6 +208,9 @@ public class Lara : MonoBehaviour
             rgbd.AddForce(transform.up * deathHitForce, ForceMode2D.Impulse);
             rgbd.gravityScale = 0.5f;
             StartCoroutine(Retry());
+        }
+        else if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")){
+            
         }
     }
 }

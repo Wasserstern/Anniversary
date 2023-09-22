@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class LetterMenu : MonoBehaviour
 {
+    public Transform gameMessageContainer;
     public AudioSource gameMusicSource;
     public AudioSource letterMenuMusicSource;
     public List<string> letterTexts;
@@ -14,6 +15,7 @@ public class LetterMenu : MonoBehaviour
     VisualElement selectedLetterContainer;
     Button backButton;
     TextField letterTextField;
+
 
     String currentText;
     int currentTextIndex;
@@ -40,6 +42,8 @@ public class LetterMenu : MonoBehaviour
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         if(Input.GetKeyDown(KeyCode.Escape)){
+            StopCoroutine(allmng.GameMessageAppear());
+            gameMessageContainer.localPosition = new Vector3(-1000, 0, 0);
             if(root.visible){
                 root.visible = false;
                 Time.timeScale = 1;
